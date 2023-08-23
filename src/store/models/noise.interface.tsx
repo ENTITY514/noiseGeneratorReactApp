@@ -3,9 +3,9 @@ import PerlinNoise from "../noises/perlin/perlin.noise"
 import SimpleNoise from "../noises/simple/simple.noise"
 
 export enum NOISES {
-    SIMPLENOISE,
-    PERLINNOISE,
-    DIAMONDSQUARENOISE
+    SIMPLENOISE = "Simple",
+    PERLINNOISE = "Perlin",
+    DIAMONDSQUARENOISE = "DiamondSquare algorith"
 }
 
 export interface INoiseReducer {

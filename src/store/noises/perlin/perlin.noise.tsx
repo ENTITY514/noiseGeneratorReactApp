@@ -111,7 +111,7 @@ export default class PerlinNoise implements INoiseClass {
         return noise;
     }
 
-    getView() {
+    getSettingsView() {
         return <View noise={this} />
     }
 }

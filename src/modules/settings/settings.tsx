@@ -1,4 +1,6 @@
+import { Dropdown } from "../../components/DropDown/dropDown";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/redux";
+import { NOISES } from "../../store/models/noise.interface";
 import { NoiseSlice } from "../../store/reducers/noise.reducer";
 import style from "./style.module.css"
 
@@ -9,8 +11,15 @@ function Settings() {
   return (
     <div className={style.container}>
       <div className={style.image} style={{ backgroundImage: "url(/reload.png)" }} onClick={() => { dispatch(action.updateNoise()) }}></div>
+      <div>
+        <Dropdown
+          options={[NOISES.SIMPLENOISE, NOISES.PERLINNOISE, NOISES.DIAMONDSQUARENOISE]}
+          selectedOption={state.activeNoise}
+          onSelect={(option) => { dispatch(action.setNoiseType(option)); dispatch(action.updateNoise()) }}
+        />
+      </div>
       {
-        state.noiseObject.getView()
+        state.noiseObject.getSettingsView()
       }
     </div>
   );

@@ -1,8 +1,9 @@
+import { INoiseClass } from "../noise.abstract"
 import { View } from "./view"
 
-export default class SimpleNoise {
+export default class SimpleNoise implements INoiseClass {
     getNoise(size: number) {
-        let count = size ** 2 + 1
+        let count = 2 ** size + 1
         let noise: number[][] = []
         for (let i = 0; i < count; i++) {
             noise.push([])
@@ -13,7 +14,7 @@ export default class SimpleNoise {
         return noise
     }
 
-    getView() {
+    getSettingsView() {
         return <View noise={this} />
     }
 }

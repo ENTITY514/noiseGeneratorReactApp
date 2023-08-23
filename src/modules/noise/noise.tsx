@@ -25,19 +25,21 @@ function Noise() {
 
   const generate = () => {
     if (ctx) {
-      let width = 2 ** state.size + 1
-      let cellSize = 500 / width
-      for (let i = 0; i < width; i++) {
-        for (let j = 0; j < width; j++) {
-          let r = (state.noise[i][j]) * 255
-          ctx.fillStyle = "rgb(" + r + "," + r + "," + r + ")"
-          ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize)
+
+      let сellCount = 2 ** state.size + 1;
+      let cellSize = 500 / сellCount;
+
+      for (let i = 0; i < сellCount; i++) {
+        for (let j = 0; j < сellCount; j++) {
+          let r = (state.noise[i][j]) * 255;
+          ctx.fillStyle = "rgb(" + r + "," + r + "," + r + ")";
+          ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
         }
       }
     }
   }
 
-  React.useEffect(() => { generate() }, [state.noise])
+  React.useEffect(() => { generate() }, [state.noise, state.size])
 
   return (
     <div className={style.container} ref={containerRef}>

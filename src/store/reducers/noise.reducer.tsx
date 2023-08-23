@@ -9,8 +9,8 @@ const perlinNoise = new PerlinNoise()
 const diamondSquareNoise = new DiamondSquareNoise()
 
 let initialState: INoiseReducer = {
-    noise: simpleNoise.getNoise(4),
-    size: 4,
+    noise: simpleNoise.getNoise(6),
+    size: 6,
     activeNoise: NOISES.SIMPLENOISE,
     noiseObject: simpleNoise
 }

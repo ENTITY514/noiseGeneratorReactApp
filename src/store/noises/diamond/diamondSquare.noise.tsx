@@ -109,7 +109,7 @@ export default class DiamondSquareNoise implements INoiseClass {
         return this.noise
     }
 
-    getView() {
+    getSettingsView() {
         return <View noise={this} />
     }
 }
