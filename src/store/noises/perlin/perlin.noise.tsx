@@ -1,11 +1,22 @@
-import { INoiseClass } from "../noise.abstract";
+import { INoiseClass, ISettings } from "../noise.abstract";
 import { View } from "./view";
 
+interface IPerlinNoiseSettings extends ISettings {
+    octavCount: number
+    persistance: number
+    scale: number
+}
 export default class PerlinNoise implements INoiseClass {
+    settings: IPerlinNoiseSettings = {
+        octavCount: 1,
+        persistance: 0,
+        scale: 1
+    }
     table: number[] = []
     constructor() {
         this.table = this.getTable()
     }
+
     Lerp(a: number, b: number, t: number) {
         // return a * (t - 1) + b * t; можно переписать с одним умножением (раскрыть скобки, взять в другие скобки):
         return a + (b - a) * t;
@@ -73,7 +84,7 @@ export default class PerlinNoise implements INoiseClass {
         return tb;
     }
 
-    OctavNoise(fx: number, fy: number, octaves: number, persistence: number = 0.5) {
+    OctavNoise(fx: number, fy: number, octaves: number, persistence: number) {
         let amplitude: number = 10; // сила применения шума к общей картине, будет уменьшаться с "мельчанием" шума
         // как сильно уменьшаться - регулирует persistence
         let max: number = 0; // необходимо для нормализации результата
@@ -105,7 +116,7 @@ export default class PerlinNoise implements INoiseClass {
         for (var i = 0; i < width; i++) {
             noise[i] = new Array(width);
             for (var j = 0; j < width; j++) {
-                noise[i][j] = this.OctavNoise(i, j, 5)
+                noise[i][j] = this.OctavNoise(i / this.settings.scale, j / this.settings.scale, this.settings.octavCount, this.settings.persistance)
             }
         }
         return noise;

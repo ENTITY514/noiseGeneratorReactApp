@@ -1,28 +1,29 @@
 import React from "react"
 import style from "./style.module.css"
+import { Wrapper } from "../../UI/Wrapper/wrapper"
+import { COLORS } from "../../UI/colors"
+import { Text } from "../../UI/Text/text"
 
-interface IInputProps {
-    type: React.HTMLInputTypeAttribute
+interface ICheckInputProps {
     title: string
-    placeHolder?: string
-    onEnter?: (value: string) => void
-    onChange?: (value: string) => void
+    value: boolean
+    onEnter?: (value: boolean) => void
+    onChange?: (value: boolean) => void
 }
 
-export const Input: React.FC<IInputProps> = ({
-    type,
+export const CheckInput: React.FC<ICheckInputProps> = ({
+    value: val,
     title,
-    placeHolder = "Seed",
     onEnter = () => { },
     onChange = () => { },
 }) => {
-    const [value, setValue] = React.useState<string>(title)
+    const [value, setValue] = React.useState<boolean>(val)
     const input_ref = React.useRef<HTMLInputElement>(null)
 
     const handlerChange = () => {
         if (input_ref.current !== null) {
-            setValue(input_ref.current.value)
-            onChange(input_ref.current.value)
+            setValue(input_ref.current.checked)
+            onChange(input_ref.current.checked)
         }
     }
 
@@ -34,16 +35,16 @@ export const Input: React.FC<IInputProps> = ({
     }
 
     return (
-        <div className={style.container} >
+        <Wrapper width="300px" backgroundColor={COLORS.DARK_GREY}>
+            <Text>{title}</Text>
             <input
                 ref={input_ref}
                 className={style.input}
-                type={type}
-                value={value}
+                type={"checkbox"}
+                checked={value}
                 onChange={handlerChange}
                 onKeyDown={hadlerKeyDown}
-                placeholder={placeHolder}
             />
-        </div >
+        </Wrapper>
     )
 }

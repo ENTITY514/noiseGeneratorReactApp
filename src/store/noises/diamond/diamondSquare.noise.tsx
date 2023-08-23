@@ -1,11 +1,17 @@
-import { INoiseClass } from "../noise.abstract";
+import { INoiseClass, ISettings } from "../noise.abstract";
+import PerlinNoise from "../perlin/perlin.noise";
 import { View } from "./view";
+interface IDiamodSquareNoiseSettings extends ISettings {
+    magnitude: number
+}
 
 export default class DiamondSquareNoise implements INoiseClass {
+    settings: IDiamodSquareNoiseSettings = {
+        magnitude: 9
+    }
     size!: number;
-    corners: number[] = [1, 1, 1, 1];
-    init_mag: number = 4;
-    mag: number = this.init_mag;
+    corners: number[] = [0, 0, 0, 0];
+    mag: number = this.settings.magnitude;
     width!: number
     noise!: number[][]
 
@@ -75,26 +81,11 @@ export default class DiamondSquareNoise implements INoiseClass {
         return tot / count;
     }
 
-    private noise_() {
-        for (var i = 1 << this.size; i > 1; i = i >> 1) {
+    private noise_(size: number) {
+        for (var i = 1 << size; i > 1; i = i >> 1) {
             this.diamondStep(i);
             this.squareStep(i);
             this.mag *= 0.6;
-        }
-
-        var max = 0
-        for (var i = 0; i < this.width; i++) {
-            for (var j = 0; j < this.width; j++) {
-                if (this.noise[i][j] > max) {
-                    max = this.noise[i][j]
-                }
-            }
-        }
-
-        for (var i = 0; i < this.width; i++) {
-            for (var j = 0; j < this.width; j++) {
-                this.noise[i][j] /= max
-            }
         }
     }
 
@@ -103,8 +94,9 @@ export default class DiamondSquareNoise implements INoiseClass {
         this.noise = new Array(this.width)
         this.fillArray()
         this.setСorners()
-        this.noise_()
-        this.mag = this.init_mag
+        this.noise_(size)
+        this.mag = this.settings.magnitude
+
 
         return this.noise
     }

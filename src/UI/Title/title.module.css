@@ -1,0 +1,20 @@
+.medium {
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.light {
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.big {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: normal;
+}

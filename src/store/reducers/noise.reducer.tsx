@@ -9,11 +9,13 @@ const perlinNoise = new PerlinNoise()
 const diamondSquareNoise = new DiamondSquareNoise()
 
 let initialState: INoiseReducer = {
-    noise: simpleNoise.getNoise(6),
-    size: 6,
-    activeNoise: NOISES.SIMPLENOISE,
-    noiseObject: simpleNoise
+    noise: diamondSquareNoise.getNoise(8),
+    size: 8,
+    activeNoise: NOISES.DIAMONDSQUARENOISE,
+    noiseObject: diamondSquareNoise,
+    normalize: false
 }
+
 
 export const NoiseSlice = createSlice({
     name: 'noiseSlice',
@@ -21,9 +23,26 @@ export const NoiseSlice = createSlice({
     reducers: {
         setNoiseType: (state, action: PayloadAction<NOISES>) => {
             state.activeNoise = action.payload
+            switch (state.activeNoise) {
+                case NOISES.SIMPLENOISE:
+                    state.noiseObject = simpleNoise
+                    break;
+                case NOISES.PERLINNOISE:
+                    state.noiseObject = perlinNoise
+                    break;
+                case NOISES.DIAMONDSQUARENOISE:
+                    state.noiseObject = diamondSquareNoise
+                    break;
+
+                default:
+                    break;
+            }
         },
         setSize: (state, action: PayloadAction<number>) => {
             state.size = action.payload
+        },
+        setNormalize: (state, action: PayloadAction<boolean>) => {
+            state.normalize = action.payload
         },
         updateNoise: (state) => {
             switch (state.activeNoise) {
@@ -40,8 +59,31 @@ export const NoiseSlice = createSlice({
                 default:
                     break;
             }
+            if (state.normalize) {
+                NormalizeArray(state.noise)
+            }
         },
+
     }
 })
 
 export default NoiseSlice.reducer;
+
+
+const NormalizeArray = (array: number[][]) => {
+    var max = 0
+
+    for (var i = 0; i < array.length; i++) {
+        for (var j = 0; j < array.length; j++) {
+            if (array[i][j] > max) {
+                max = array[i][j]
+            }
+        }
+    }
+
+    for (var i = 0; i < array.length; i++) {
+        for (var j = 0; j < array.length; j++) {
+            array[i][j] /= max
+        }
+    }
+}

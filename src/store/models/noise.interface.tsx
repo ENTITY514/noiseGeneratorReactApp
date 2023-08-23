@@ -13,4 +13,5 @@ export interface INoiseReducer {
     size: number
     activeNoise: NOISES
     noiseObject: DiamondSquareNoise | SimpleNoise | PerlinNoise
+    normalize: boolean
 }
